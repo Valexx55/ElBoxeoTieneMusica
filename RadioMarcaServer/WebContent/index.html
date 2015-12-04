@@ -5,9 +5,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="http://localhost:8081/RadioMarcaServer/ProcesarSubida" enctype="multipart/form-data" method="post">
-		Audio del programa: <input type="file" name="file" required/><br/><br/>
-		Fecha: <input type="date" name="date" required="required"/><br/><br/>
+	<form action="/RadioMarcaServer/ProcesarSubida" enctype="multipart/form-data" method="post">
+		<label for = "file"> Audio del programa: </label><input type="file" name="file" id = " file" required/><br/><br/>
+		<label for="date"> Fecha: </label>  <input type="date" name="date" id = "date" required="required"/><br/><br/>
+		<label for = "destino">Destino:</label> <input type="text" name="destino" id= "destino" required="required"/><br/><br/>
 		<input type="checkbox" name="notify" value="notify"/> Notificar a los usuarios <br/><br/>
 		<input type="submit" value="Subir"/>
 	</form>

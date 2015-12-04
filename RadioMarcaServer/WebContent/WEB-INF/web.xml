@@ -22,6 +22,6 @@
   </servlet>
   <context-param>
     <param-name>ruta_programas</param-name>
-    <param-value>C:\marca</param-value>
+    <param-value>marca</param-value>
   </context-param>
 </web-app>
