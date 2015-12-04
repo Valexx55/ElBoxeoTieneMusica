@@ -41,10 +41,13 @@ public class ListarPodcastsDisponibles extends HttpServlet {
 		//TODO recuperar todos los directorios disponbles y devolverlos en un XML o en JSON?
 		
 		List<String> lista_directorios = null;
+		//String ruta = System.getenv("OPENSHIFT_ENV_VAR");
 		String ruta = getServletContext().getInitParameter("ruta_programas");
+		File dir = new File (ruta);
+		log.debug("Ruta = " + ruta);
 		String lista_json = null;
 		
-		File carpeta = new File(ruta);
+		File carpeta = new File(dir.getAbsolutePath());
 		
 		File[] lista_programas = carpeta.listFiles();
 		
@@ -69,7 +72,7 @@ public class ListarPodcastsDisponibles extends HttpServlet {
 		Gson gson = new Gson();
 		lista_json = gson.toJson(lista_directorios);
 		
-		System.out.println(lista_json);
+		log.debug(lista_json);
 		
 		resp.setContentType("application/json");
 		PrintWriter pw = resp.getWriter();

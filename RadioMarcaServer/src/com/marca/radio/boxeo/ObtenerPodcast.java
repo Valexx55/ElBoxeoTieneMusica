@@ -14,12 +14,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 /**
  * Servlet implementation class ObtenerPodcast
  */
 @WebServlet("/ObtenerPodcast")
 public class ObtenerPodcast extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final static Logger log = Logger.getLogger("mylog");
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -70,14 +73,18 @@ public class ObtenerPodcast extends HttpServlet {
 		leido = is.read();
 		long total_leidos = 0;
 		
-		byte [] buffer_lectura_escritura = new byte[4096];
+		byte [] buffer_lectura_escritura = new byte[8192];
 		
 		while ((leido=is.read(buffer_lectura_escritura))!=-1)
 				{
 					os.write(buffer_lectura_escritura, 0, leido);
 					total_leidos = total_leidos+leido;
 				}
-		System.out.println("Total de bytes leídos = " + total_leidos);
+		log.debug("Total de bytes leídos = " + total_leidos);
+		
+		//response.setContentLength((int) total_leidos);
+		response.setHeader("Content-Length", Long.toString(total_leidos));
+		
 		is.close();
 		os.flush();
 	}

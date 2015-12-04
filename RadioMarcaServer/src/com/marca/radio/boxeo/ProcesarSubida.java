@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -40,28 +41,35 @@ public class ProcesarSubida extends HttpServlet {
 		String ruta = null;
 		
 		//ruta = System.getProperty("catalina.home")+ File.separator + "programas" +File.separator +nombredirectorio;
-		ruta = getServletContext().getInitParameter("ruta_programas")+File.separator +nombredirectorio;
+		//ruta = System.getenv("OPENSHIFT_ENV_VAR")+File.separator +nombredirectorio;
+		ruta = getServletContext().getInitParameter("ruta_programas");
+		ruta = ruta+File.separator+ nombredirectorio;
 		File dir = new File(ruta);
 		File serverFile = new File(dir.getAbsolutePath() + File.separator + nombrefichero);
 		dir.mkdirs(); //puede devolver false, si ya existe, no se crea de nuevo. Si existe y dentro hay un archivo con el mismo nombre se va a sobreescribir el fichero! (si se llama igual)
+		
+		byte[] buffer_read = new byte[4096];
 		
 		try (BufferedInputStream bis = new BufferedInputStream(fichero.getInputStream());BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(serverFile));) {
 		
 				int byteleido;
 			        
-			    while ((byteleido=bis.read())!=-1)
+				
+			    while ((byteleido = bis.read(buffer_read))!=-1)
 			        {
-			        	bos.write(byteleido);
+			        	bos.write(buffer_read, 0, byteleido);
 			        }
 			    
-			    log.info("Fichero fuardado en: " + serverFile.getAbsolutePath());
-				
+			    //log.info("Fichero fuardado en: " + serverFile.getAbsolutePath());
+			    log.debug("Fichero guardado en: " + serverFile.getAbsolutePath());
+			    
 				} catch (Exception e) {
 					
-					StringWriter sw = new StringWriter();
+					/*StringWriter sw = new StringWriter();
 					PrintWriter pw = new PrintWriter(sw);
 					e.printStackTrace(pw);
-					log.error(sw.toString());
+					log.error(sw.toString());*/
+					e.printStackTrace();
 					ok = false;
 				}
 		
@@ -102,13 +110,14 @@ public class ProcesarSubida extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		//log.debug("Petición recibida.");
 		log.debug("Petición recibida.");
-		
 		String date = request.getParameter("date"); //la fecha, dará nombre a la carpeta
-		String notificar = request.getParameter("notify"); //el usuario puede elegir si notificar o no
-		boolean hayQueNotificar = (notificar == null)? false:true; //traducimos ése valor a booleano. Si vale null, es que no ha clicado la opción. Si la clickó, valdrá true
+		//String notificar = request.getParameter("notify"); //el usuario puede elegir si notificar o no
+		//boolean hayQueNotificar = (notificar == null)? false:true; //traducimos ése valor a booleano. Si vale null, es que no ha clicado la opción. Si la clickó, valdrá true
+		//log.debug("Ha entrado en el Procesar subida!");
 		
-		
+		//log.debug("Fecha recibida = " + date);
 		log.debug("Fecha recibida = " + date);
 		
 		Part filePart = request.getPart("file");
@@ -118,12 +127,15 @@ public class ProcesarSubida extends HttpServlet {
 		{
 			
 			guardarFichero(filePart, fileName, date);
+			//log.debug("Fichero almacenado !!");
+			log.debug("Fichero almacenado !!");
+			response.sendRedirect("exito.html");
 			
-			if (hayQueNotificar)
-			{
+			/*if (hayQueNotificar)
+			{//ESTA PARTE DE MOMENTO, NI SE HACE NADA DE NADA
 				log.trace("Debemos generar las notificaciones");
 				//TODO Ir a la base de datos, leer los id's de los destinatarios, componer el mensaje y enviarlo GCM PART
-			}
+			}*/
 			
 		}
 		else response.sendRedirect("error.html");
