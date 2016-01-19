@@ -5,9 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 
-import javax.imageio.stream.FileImageInputStream;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -53,20 +51,19 @@ public class ObtenerPodcast extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		// READ THE DATE PARAM
+		
 		String fecha = request.getParameter("fecha");
-		
-		OutputStream os = response.getOutputStream();
-		response.setContentType("audio/mp3");
 		String ruta = getServletContext().getInitParameter("ruta_programas")+File.separator +fecha;
-		
-		
+
+		//GET THAT FOLDER'S DATE
 		File carpeta = new File(ruta);
-		
 		File[] lista_programas = carpeta.listFiles();
 		
+		//GET MP3 FILE OF THAT DATE
 		int pos_buena = buscaFicheroMp3(lista_programas);
 		
+		//WRITE IT TO OUTPUT
 		InputStream is = new FileInputStream(lista_programas[pos_buena]);
 		
 		int leido;
@@ -75,6 +72,9 @@ public class ObtenerPodcast extends HttpServlet {
 		
 		byte [] buffer_lectura_escritura = new byte[8192];
 		
+		OutputStream os = response.getOutputStream();
+		response.setContentType("audio/mp3");
+		
 		while ((leido=is.read(buffer_lectura_escritura))!=-1)
 				{
 					os.write(buffer_lectura_escritura, 0, leido);
@@ -82,7 +82,6 @@ public class ObtenerPodcast extends HttpServlet {
 				}
 		log.debug("Total de bytes leídos = " + total_leidos);
 		
-		//response.setContentLength((int) total_leidos);
 		response.setHeader("Content-Length", Long.toString(total_leidos));
 		
 		is.close();
