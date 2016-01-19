@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" android:background="#ffffff">
+
+    <CheckBox
+        android:id="@+id/checkBox_aviso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/abc_action_bar_default_height_material"
+        android:text="Recibir Notificaciones"
+        android:textSize="18dip" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/abc_action_bar_content_inset_material"
+        android:layout_marginRight="@dimen/abc_action_bar_content_inset_material"
+        android:layout_marginTop="@dimen/abc_action_bar_default_height_material"
+        android:text="Esta opción no hace nada. Dile a la gente de Marca que se estire, y podrás ser avisado cuando haya un nuevo programa disponible automáticamente ;)"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</LinearLayout>
