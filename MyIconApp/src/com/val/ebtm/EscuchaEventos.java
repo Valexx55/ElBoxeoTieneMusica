@@ -67,18 +67,23 @@ public class EscuchaEventos implements OnClickListener{
 	 */
 	private String obtenerFechaPadre (View v)
 	{
-		String fecha = null;
+		String fecha_actual_nominal = null;
+		String fecha_numerica = null;
 		
-		LinearLayout layaout_padre = (LinearLayout)v.getParent().getParent();
+			LinearLayout layaout_padre = (LinearLayout)v.getParent().getParent();
+			
+			Log.d(this.getClass().getCanonicalName(), "Layautpadre nombre = " +layaout_padre.getClass().getName());
+			
+			TextView texto = (TextView)layaout_padre.getChildAt(0);
+	
+			fecha_actual_nominal = (String) texto.getText();
+			
+			fecha_numerica = TraduceFecha.fromNominal2Numeric(fecha_actual_nominal);//nueva
+			
+			Log.d(this.getClass().getCanonicalName(), "fecha actual = " + fecha_actual_nominal);
+			Log.d(this.getClass().getCanonicalName(), "fecha numerica = " + fecha_numerica);
 		
-		Log.d(this.getClass().getCanonicalName(), "Layautpadre nombre = " +layaout_padre.getClass().getName());
-		
-		TextView texto = (TextView)layaout_padre.getChildAt(0);
-
-		fecha = (String) texto.getText();
-		
-		Log.d(this.getClass().getCanonicalName(), "fecha = " + fecha);
-		return fecha;
+		return fecha_numerica;
 	}
 
 	/**

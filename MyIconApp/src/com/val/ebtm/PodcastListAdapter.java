@@ -76,8 +76,14 @@ public class PodcastListAdapter extends ArrayAdapter<ItemPodcast> {
 		
 		initBotonState(holder.eliminarButton, holder.itemPodcast.isEliminar_disponible(), this.ev);
 		
-		holder.fecha_pgm = (TextView)row.findViewById(R.id.podcast_fecha_id);
-		holder.fecha_pgm.setText(holder.itemPodcast.getFecha());
+		holder.fecha_pgm = (TextView)row.findViewById(R.id.podcast_fecha_id); 
+		
+		//nuevo linea, traduzco la fecha de formato numero a nominal
+		String fecha_nominal = TraduceFecha.fromNumeric2Nominal(holder.itemPodcast.getFecha()); //linea nueva
+		
+		holder.fecha_pgm.setText(fecha_nominal); //linea mod
+		
+		//holder.fecha_pgm.setText(holder.itemPodcast.getFecha());//vieja forma
 
 		
 		row.setTag(holder);
