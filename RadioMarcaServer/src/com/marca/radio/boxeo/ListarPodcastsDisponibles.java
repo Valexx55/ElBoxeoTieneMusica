@@ -9,49 +9,38 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.Logger;
-
 import com.google.gson.Gson;
 
 /**
- * Servlet implementation class ProcesarSubida
+ * Servlet ListarPodcastDisponibles sirve para atender peticiones remotas sobre qué podcasts hay disponibles en el lado del servidor
+ * La petición por tanto, la atenderá get y deuelve un mensaje en formato json que contiene las fechas de los programas disponilbes
+ * 
  */
 public class ListarPodcastsDisponibles extends HttpServlet {
 	
 	
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3L;
+	
 	private final static Logger log = Logger.getLogger("mylog");
 	
 	
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-		//TODO recuperar todos los directorios disponbles y devolverlos en un XML o en JSON?
-		
-		String lista_json = null;
+	/**
+	 * Función privada que recibe el listado de carpetas de podcast presentes en el servidor y devuelve una lista con el nombre de cada carpeta (fecha de cada programa)
+	 * 
+	 * @param lista_programas listado de carpetas presentes en el servidor
+	 * @return Una lista de Strings, en la que cada elemento, es el nombre de la carpeta (fecha del progrma)
+	 */
+	private List<String> listarDirectorios (File[] lista_programas)
+	{
 		List<String> lista_directorios = null;
-		String ruta = getServletContext().getInitParameter("ruta_programas");
-		File dir = new File (ruta);
-		log.debug("Ruta = " + ruta);
 		
-		
-		//GET PROGRAMMES'S FOLDER
-		
-		File carpeta = new File(dir.getAbsolutePath());
-		File[] lista_programas = carpeta.listFiles();
-		
-		//PROCCESS EACH ITEM
-		
-		lista_directorios = new LinkedList<String>();
-		if (lista_programas.length >0)
-		{
-			String nombre_dir_actual = null;
-			for (File file : lista_programas) 
+			lista_directorios = new LinkedList<String>();
+			if (lista_programas.length > 0)
+			{
+				String nombre_dir_actual = null;
+				for (File file : lista_programas) 
 				{
 					if (file.isDirectory())
 					{
@@ -59,22 +48,55 @@ public class ListarPodcastsDisponibles extends HttpServlet {
 						lista_directorios.add(nombre_dir_actual);
 					}
 				}	
-		}
-		else 
-			{
-				//devolvemos un listado vac�o
 			}
+			
+			/*else //no hay programas, devuelvo una lista vacía (!=null) 
+				{
+				
+				}*/
 		
-		//BUILD UP THE GSON RESPONSE MESSAGE
-		Gson gson = new Gson();
-		lista_json = gson.toJson(lista_directorios);
+		return lista_directorios;
 		
-		log.debug(lista_json);
+	}
+	
+	
+	/**
+	 * Petición Get que responde a la petición de ¿qué podcasts hay disponibles en el servidor? usando para ello un formato JSON
+	 */
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
+	{
+	
+		String lista_json = null;
+		List<String> lista_directorios = null;
+		String ruta = null;
+		File dir = null;
+		Gson gson = null;
+		PrintWriter pw = null;
+
 		
-		resp.setContentType("application/json");
-		PrintWriter pw = resp.getWriter();
-		pw.print(lista_json);
+			ruta = getServletContext().getInitParameter("ruta_programas");
+			log.debug("Ruta = " + ruta);
+			
+			log.info("Petición recibida listar podcasts");
+			
+			dir = new File (ruta);
 		
+			File carpeta = new File(dir.getAbsolutePath());
+			File[] lista_programas = carpeta.listFiles();
+			
+			lista_directorios = listarDirectorios(lista_programas);
+			
+			gson = new Gson();
+			lista_json = gson.toJson(lista_directorios);
+			
+			log.info("Respuesta Lista JSON  = " + lista_json);
+			log.debug("Número de progrmas = " + lista_directorios.size());
+			
+			resp.setContentType("application/json");
+			pw = resp.getWriter();
+			pw.print(lista_json);
 		
 	}
 }

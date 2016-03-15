@@ -13,18 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet Filter implementation class FiltroClavel
+ * Servlet Filter El uso y siginificado de esta clase, queda reservado. Quien sepa leer c√≥digo,  lleva premio! ;)
  */
 @WebFilter("/ProcesarSubida")
 public class FiltroClavel implements Filter {
 
-    /**
-     * Default constructor. 
-     */
-    public FiltroClavel() {
-        // TODO Auto-generated constructor stub
-    }
-
+   
 	/**
 	 * @see Filter#destroy()
 	 */
@@ -36,18 +30,18 @@ public class FiltroClavel implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		// TODO Auto-generated method stub
-		// place your code here
-
-		// pass the request along the filter chain
-		HttpServletRequest peticion = (HttpServletRequest)request;
-		String clavel = peticion.getParameter("destino");
-		if (clavel.equals("nrmnct29")) //si no ha introducido bien la clave, 
+	
+	HttpServletRequest peticion = null;
+	String clavel = null;
+	
+		peticion = (HttpServletRequest)request;
+		clavel = peticion.getParameter("destino");
+		if (clavel.equals("nrmnct29"))
 			chain.doFilter(request, response);
 		else 
 		{
 			HttpServletResponse respuesta = (HttpServletResponse)response;
-			respuesta.sendRedirect("./");//le redirijo a la p·gina de inicio
+			respuesta.sendRedirect("./");
 		}
 			
 	}
