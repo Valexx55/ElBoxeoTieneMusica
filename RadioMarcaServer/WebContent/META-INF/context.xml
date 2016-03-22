@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context docBase="RadioMarcarServer" path="/RadioMarcaServer" reloadable="true">
+<Resource 
+	name="jdbc/pool" 
+	auth="Container" 
+	type="javax.sql.DataSource"  
+	username="adminxZJEL4E" 
+	password="_Z4aPgt_1gXX" 
+	driverClassName="com.mysql.jdbc.Driver"  
+	url="jdbc:mysql://127.3.224.130:3306/ebtm" 
+	maxActive="50" 
+	maxIdle="20"/> 
+</Context>
