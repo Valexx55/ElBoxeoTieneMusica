@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Lista Categorias</title>
+	<title>Estadísticas EBTM</title>
 </head>
 <body>
 	<div align="center">
@@ -17,9 +17,26 @@
 			<br>
 			<c:forEach items="${lista_usuarios}" var="usuario" varStatus="i">
 				<tr>
-					<td>${i.index}</td>
+					<td>${i.index+1}</td>
 					<td>${usuario.lista_emails}</td>
 					<td>${usuario.momento}</td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
+	<br><br>
+	<div align="center">
+		<h1>DESCARGAS REGISTRADAS</h1>
+		<table border="1">
+			<th>Nº</th>
+			<th>Fecha programa</th>
+			<th>Nº descargas</th>
+			<br>
+			<c:forEach items="${mapa_descargas}" var="descarga" varStatus="i">
+				<tr>
+					<td>${i.index+1}</td>
+					<td>${descarga.key}</td>
+					<td>${descarga.value}</td>
 				</tr>
 			</c:forEach>
 		</table>
