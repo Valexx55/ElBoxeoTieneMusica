@@ -77,10 +77,12 @@ public class RegistrarUsuario extends HttpServlet {
 				catch (Exception e) 
 				{
 					log.error("Error insertando en la base de datos registrando el usuario ", e);
+					response.setStatus(HttpURLConnection.HTTP_BAD_REQUEST);
 				}
 				finally 
 				{
 					Pool.liberarRecursos(cx, pst);
+					
 				}
 				
 				
