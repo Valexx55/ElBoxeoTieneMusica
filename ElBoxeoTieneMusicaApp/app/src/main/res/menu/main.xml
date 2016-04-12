@@ -1,0 +1,35 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.myiconapp.MainActivity" >
+
+    <item
+        android:id="@+id/boton_ajustes"
+        android:orderInCategory="1"
+        android:title="@string/action_settings"
+        android:icon="@drawable/ajustes"
+        app:showAsAction="always|withText"/>
+
+    <item
+        android:id="@+id/boton_twitter"
+        android:orderInCategory="2"
+        android:title="@string/action_twitter"
+        android:icon="@drawable/twit"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/boton_compartir"
+        android:orderInCategory="3"
+        android:title="@string/action_compartir"
+        android:icon="@drawable/was"
+        app:showAsAction="never"/>
+    
+
+    <item
+        android:id="@+id/boton_cerrar"
+        android:orderInCategory="4"
+        android:title="@string/action_close"
+        app:showAsAction="never"/>
+
+
+</menu>
