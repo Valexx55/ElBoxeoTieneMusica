@@ -140,9 +140,17 @@ public class ProcesarSubida extends HttpServlet {
 			
 			if (formatoFicheroValido(fileName))
 			{
-				guardarFichero(filePart, fileName, date);
-				log.debug("Fichero almacenado !!");
-				response.sendRedirect("exito.html");
+				if (guardarFichero(filePart, fileName, date))
+				{
+					log.debug("Fichero almacenado !!");
+					response.sendRedirect("exito.html");
+				}
+				else
+				{
+					log.debug("Error guardando el fichero :(");
+					response.sendRedirect("error.html");
+				}
+					
 			}
 				
 			else

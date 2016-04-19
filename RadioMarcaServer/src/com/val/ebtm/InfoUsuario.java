@@ -23,7 +23,6 @@ public class InfoUsuario implements Serializable
 
     public InfoUsuario ()
     {
-
     }
 
     

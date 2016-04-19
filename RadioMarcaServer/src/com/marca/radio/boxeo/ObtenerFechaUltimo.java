@@ -3,6 +3,7 @@ package com.marca.radio.boxeo;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -74,6 +75,7 @@ public class ObtenerFechaUltimo extends HttpServlet {
 			str_fecha_ultimo = obtenerFechaUltimo ();
 			pw = response.getWriter();
 			pw.write(str_fecha_ultimo);
+			response.setStatus(HttpURLConnection.HTTP_OK);
 			
 			log.info("Mayor devuelto = " + str_fecha_ultimo);
 		
