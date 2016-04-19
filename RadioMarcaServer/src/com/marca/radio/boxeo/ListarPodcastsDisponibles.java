@@ -3,6 +3,7 @@ package com.marca.radio.boxeo;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
 import java.util.LinkedList;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -95,8 +96,11 @@ public class ListarPodcastsDisponibles extends HttpServlet {
 			log.debug("Número de progrmas = " + lista_directorios.size());
 			
 			resp.setContentType("application/json");
+			
+			
 			pw = resp.getWriter();
 			pw.print(lista_json);
 		
+			resp.setStatus(HttpURLConnection.HTTP_OK);
 	}
 }
