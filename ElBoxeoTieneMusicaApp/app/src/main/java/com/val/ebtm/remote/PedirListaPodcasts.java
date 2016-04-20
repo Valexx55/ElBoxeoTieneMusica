@@ -26,17 +26,19 @@ public class PedirListaPodcasts extends AsyncTask<Void, Integer, String> {
 				Log.d(this.getClass().getCanonicalName(), "Llamado a ListarPodcastsDisponibles");
 				URL serverUrl = new URL("http://ebtm-ebtm.rhcloud.com/RadioMarcaServer/ListarPodcastsDisponibles");
 				HttpURLConnection httpCon = (HttpURLConnection) serverUrl.openConnection();
-				InputStreamReader isr = new InputStreamReader(httpCon.getInputStream());
-				
-				int leido;
-				msj_json = "";
-			
-				while ((leido = isr.read())!=-1)
-				{
-					msj_json = msj_json +  (char)leido;
-				}
-				
-				isr.close();
+
+                if (httpCon.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    InputStreamReader isr = new InputStreamReader(httpCon.getInputStream());
+
+                    int leido;
+                    msj_json = "";
+
+                    while ((leido = isr.read()) != -1) {
+                        msj_json = msj_json + (char) leido;
+                    }
+
+                    isr.close();
+                }
 				httpCon.disconnect();
 			
 			}

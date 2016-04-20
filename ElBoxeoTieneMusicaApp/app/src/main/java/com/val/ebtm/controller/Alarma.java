@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- *Disponible desde la versión 1.1.4 de la aplicación.
+ *Disponible desde la versión 5 de la aplicación.
  * Clase para programar y desprogramar las alarmas que dan soporte al servicio
  * de notificaciones incluído a partir de esta versión
  *

@@ -12,11 +12,15 @@ import java.net.URL;
 
 /**
  * Tarea que recupera la fecha del último Podcast disponible en el servidor
- * Necesario para el servicio de Notificaciones incluído a partir de la 1.4
+ * Necesario para el servicio de Notificaciones incluído a partir de la 1.1.4
+ *
+ *
  *
  * @version Disponible desde versión Notario
  * @author Val
  */
+
+//TODO ES necesario sacar todas las uRLS de servicio a un fichero de propiedades o al menos decalrarla como constantes
 public class ObtenerFechaUltimoPodcast extends AsyncTask<Void, Integer, String> {
 
 	@Override
@@ -30,15 +34,19 @@ public class ObtenerFechaUltimoPodcast extends AsyncTask<Void, Integer, String> 
 				Log.d(this.getClass().getCanonicalName(), "Llamado a ObtenerFechaUltimo");
 				URL serverUrl = new URL("http://ebtm-ebtm.rhcloud.com/RadioMarcaServer/ObtenerFechaUltimo");
 				HttpURLConnection httpCon = (HttpURLConnection) serverUrl.openConnection();
-				InputStreamReader isr = new InputStreamReader(httpCon.getInputStream());
 
-                BufferedReader br = new BufferedReader(isr);
+                if (httpCon.getResponseCode() == HttpURLConnection.HTTP_OK)
+                {
+                    InputStreamReader isr = new InputStreamReader(httpCon.getInputStream());
 
-                fecha_ultimo = br.readLine();
+                    BufferedReader br = new BufferedReader(isr);
 
-                br.close();
-				
-				isr.close();
+                    fecha_ultimo = br.readLine();
+
+                    br.close();
+
+                    isr.close();
+                }
 				httpCon.disconnect();
 			
 			}
